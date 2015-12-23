@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        {% block head %}
+            <title>Blog</title>
+            <meta charset="UTF-8">
+               {% block stylesheets %}
+                   <link href="{{ asset('css/bootstrap/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
+                   <link href="{{ asset('css/bootstrap/css/bootstrap-responsive.css') }}" rel="stylesheet" type="text/css"/>
+               {% endblock %}
+        {% endblock %}
+    </head>
+    
+    <body>
+        <div id ="wrap">
+        {% block navbar %}
+            <div id="page-header">
+            <div class="navbar">
+                <div class="navbar-inner navbar-fixed-top">
+                    <div class="container">
+                        <a class="brand" href="{{ path('blog_homepage') }}">Blog</a>
+                        <ul class="nav">
+                            <li><a href="{{ path('blog_new') }}">Rédiger un article</a></li>
+                        </ul>
+                        <ul class="nav pull-right">
+                            {% if is_granted("ROLE_USER") %}
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <li><a class="btn" href="{{ path('blog_profile') }}">Administration</a></li>
+                                {% else %}
+                                    <li><a class="btn" href="{{ path('blog_profile') }}">Profil</a></li>
+                                {% endif %}
+                                <li><a class="btn" href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
+                            {% else %}
+                                <li><a class="btn" href="{{ path('fos_user_security_login') }}">Connexion</a></li>
+                                <li><a class="btn" href="{{ path('fos_user_registration_register') }}">Inscription</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+        {% block body %}
+            <div id="lead">
+            <div class="container">
+                 <br><br>               
+                <div class="well well-large">
+                    <div class="heor-unit">
+                        <h1>Bienvenue sur notre blog</h1>
+                        <p> Ce blog a été crée par M.Debuiche et M.Pelete dans le cadre de leur formation d'ingénieurs spécialisée dans les systèmes d'information.</p>
+                        <p> Il vous permet, de publier des articles sur ce que bon vous semble !</p>
+                    </div>
+                </div>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <div class="well well-large">
+                        <div class="heor-unit">
+                            <h1>Bonjour, {{ name }}</h1>
+                            <p> Vous êtes connecté en tant qu'administrateur.</p>
+                            <p> Vous pouvez gérer tous les articles présents sur le site à partir de votre page de profil :</p>
+                            <p><a href="{{ path('blog_profile') }}" class="btn btn-primary btn_large"> Profil</a></p>
+                        </div>
+                    </div>
+                {% elseif is_granted('ROLE_USER') %}
+                    <div class="well well-large">
+                        <div class="heor-unit">
+                            <h1>Bonjour, {{ name }}</h1>
+                            <p> Maintenant connecté, vous pouvez créer un nouvel article.</p>
+                            <p> Vous pouvez aussi gérer vos précédents articles sur votre page de profil :</p>
+                            <p><a href="{{ path('blog_new') }}" class="btn btn-primary btn_large"> Rédiger un article</a>     <a href="{{ path('blog_profile') }}" class="btn btn-primary btn_large"> Profil</a></p>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="well well-large">
+                        <div class="heor-unit">
+                            <h1>Connectez vous !</h1>
+                            <p> Pour pouvoir publier un article sur ce blog vous devez vous connecter.</p>
+                            <p> Si vous n'avez pas de compte utilisateur sur notre blog, inscrivez vous dès maintenant !</p>
+                            <p><a href="{{ path('fos_user_security_login') }}" class="btn btn-primary btn_large"> Connexion</a>     <a href="{{ path('fos_user_registration_register') }}" class="btn btn-primary btn_large"> Inscription</a></p>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="row">
+                    {% for article in articles %}
+                        <div class="span3">
+                            <div class="thumbnail">
+                                <div style="text-align:center">
+                                    <img src="{{ article.image }}" alt="{{ article.titre }}">
+                                </div>
+                                <div class="caption" style="position:relative;">
+                                    <h3>{{ article.titre }}</h3>
+                                    <p>{{ article.description }}</p>
+                                    <p><a href="{{ path('blog_lecture') }}?id={{ article.id }}" class="btn btn-primary" role="button">Lire</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <br><br>
+                <br><br>
+            </div>
+            </div>
+        {% endblock %}
+        {% block footer %}
+                <div id="footer" class="container">
+                    <br>
+                    <p>&copy; Copyright 2015 by <a href="{{ path('blog_homepage') }}">Debuiche & Pelete</a>.</p>
+                </div>
+        {% endblock %}
+        </div>
+    </body>
+</html>

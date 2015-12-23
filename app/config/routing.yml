@@ -1,0 +1,11 @@
+blog:
+    resource: "@BlogBundle/Resources/config/routing.yml"
+    prefix:   /
+    
+fos_user_security:
+    resource: "@UserBundle/Resources/config/routing/security.yml"
+    
+fos_user_register:
+    resource: "@UserBundle/Resources/config/routing/register.yml"
+    prefix: /inscription
+

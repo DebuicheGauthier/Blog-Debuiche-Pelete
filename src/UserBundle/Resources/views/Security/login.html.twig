@@ -1,0 +1,43 @@
+{% extends "UserBundle::layout.html.twig" %}
+
+{% block navbar %}
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand" href="{{ path('blog_homepage') }}">Blog</a>
+                <ul class="nav">
+                    <li><a href="{{ path('blog_new') }}">Rédiger un article</a></li>
+                </ul>
+                <ul class="nav pull-right">
+                    <li><a class="btn btn-primary" href="{{ path('fos_user_security_login') }}">Connexion</a></li>
+                    <li><a class="btn" href="{{ path('fos_user_registration_register') }}">Inscription</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+    {% if error %}
+        <div>{{ error|trans({}, 'FOSUserBundle') }}</div>
+    {% endif %}
+
+    <div class="container" >
+        <form class="form-signin" action="{{ path("fos_user_security_check") }}" method="post">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+            <h2 class="form-signin-heading">Connectez vous</h2>
+
+            <label for="username">{{ 'security.login.username'|trans({},'FOSUserBundle') }}</label>
+            <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+
+            <label for="password">{{ 'security.login.password'|trans({},'FOSUserBundle') }}</label>
+            <input type="password" id="password" name="_password" required="required" />
+
+            <label class="checkbox" for="remember_me">
+                <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                {{ 'security.login.remember_me'|trans({},'FOSUserBundle') }}
+            </label>
+            
+            <input class="btn btn-large btn-primary" type="submit" id="submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "BlogBundle:Blog:index.html.twig" %}
+
+{% block body %}
+    <div class='container'>
+        <div class="well well-large">
+            <img src="{{ article.image }}" alt="{{ article.titre }}">
+            <h1>{{ article.titre }}</h1>
+            <h4>Par {{ article.auteur }}</h4>
+            <p>Publié le {{ article.date|date('d-m-Y') }}</p>
+            <br>
+            <p>{{ article.contenu }}</p>
+        </div>
+        <a href="{{ path('blog_homepage') }}" class="btn btn-primary">Retour à la page d'acceuil.</a>
+    </div>
+{% endblock %}

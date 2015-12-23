@@ -1,0 +1,28 @@
+{% extends "UserBundle::layout.html.twig" %}
+{% block navbar %}
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand" href="{{ path('blog_homepage') }}">Blog</a>
+                <ul class="nav">
+                    <li><a href="{{ path('blog_new') }}">Rédiger un article</a></li>
+                </ul>
+                <ul class="nav pull-right">
+                    <li><a class="btn" href="{{ path('fos_user_security_login') }}">Connexion</a></li>
+                    <li><a class="btn btn-primary" href="{{ path('fos_user_registration_register') }}">Inscription</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <form class="form-signin" action="{{ path("fos_user_registration_register") }}" method="POST">
+            <h2 class="form-signin-heading">Enregistrez vous</h2>
+                {{ form_widget(form) }}
+                <div>
+                    <input class="btn btn-large btn-primary" type="submit" id="submit" name="_submit" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" />
+                </div>
+        </form>
+    </div>
+{% endblock %}

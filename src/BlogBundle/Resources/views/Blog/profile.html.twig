@@ -1,0 +1,39 @@
+{% extends "BlogBundle:Blog:index.html.twig" %}
+
+{% block body %}
+    <div class="container">
+        <br><br>
+        <div class="well well-large">
+            <div class="heor-unit">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <h1>Page de d'administration</h1>
+                {% else %}
+                    <h1>Page de {{ name }}</h1>
+                {% endif %}
+                <p> Cette page vous permet de gérer vos articles.</p>
+                <p> Vous pouvez créer autant d'articles que vous voulez !</p>
+                <p><a href="{{ path('blog_new') }}" class="btn btn-primary btn_large"> Rédiger un article</a></p>
+            </div>
+        </div>    
+        <div class="row">
+            {% for article in articles %}
+                <div class="span3">
+                    <div class="thumbnail">
+                        <div style="text-align:center">
+                            <img src="{{ article.image }}" alt="{{ article.titre }}">
+                        </div>
+                        <div class="caption">
+                            <h3>{{ article.titre }}</h3>
+                            <p>{{ article.description }}</p>
+                            <p>
+                                <a href="{{ path('blog_lecture') }}?id={{ article.id }}" class="btn btn-primary">Lire</a>
+                                <a href="{{ path('blog_delete') }}?id={{ article.id }}" class="btn btn-primary">Supprimer</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <br><br>
+    </div>
+{% endblock %}
